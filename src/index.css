@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-surface-muted text-fg font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* Thin, unobtrusive scrollbars to match the dense UI */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.neutral.300') transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-pill bg-neutral-300;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-400;
+  }
+}
+
+@layer utilities {
+  /* Numeric/date table cells read better with tabular figures */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}

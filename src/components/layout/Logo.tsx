@@ -1,0 +1,18 @@
+import { cn } from '@/lib/cn'
+import { palette } from '@/design/tokens'
+
+/** Brand mark — the blue lock/"G" glyph from the Figma top-left. */
+export function Logo({ size = 30, withWordmark = false, className }: { size?: number; withWordmark?: boolean; className?: string }) {
+  return (
+    <span className={cn('inline-flex items-center gap-2', className)}>
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>
+        <rect width="32" height="32" rx="8" fill={palette.brand[600]} />
+        <path
+          d="M16 7a9 9 0 1 0 6.4 15.3l-2.5-2.5A5.5 5.5 0 1 1 21 13.5h-5v3.2h8.6V16A8.6 8.6 0 0 0 16 7Z"
+          fill={palette.primary.fg}
+        />
+      </svg>
+      {withWordmark && <span className="text-lg font-bold tracking-tight text-fg-strong">Governata</span>}
+    </span>
+  )
+}
