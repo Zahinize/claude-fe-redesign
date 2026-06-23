@@ -10,6 +10,8 @@ export {
   severityTone,
 } from './StatusChip'
 export type { ConsentStatus, PurposeState, Severity } from './StatusChip'
+export { Breadcrumb } from './Breadcrumb'
+export type { Crumb } from './Breadcrumb'
 export { Card, SectionCard } from './Card'
 export { Field, FieldGrid } from './FieldRow'
 export { Toggle } from './Toggle'

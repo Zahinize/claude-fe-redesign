@@ -52,6 +52,7 @@ variant unions, and merges `className` via [`cn`](../src/lib/cn.ts).
 | `IconButton` | `icon`, `label` (a11y), `variant`, `active` | top-navbar / icons |
 | `Badge` | `tone` (7), `variant: soft\|solid\|outline`, `dot` | `alert-buttons` / `alert-colors` |
 | `StatusChip` · `PurposeChip` · `SeverityBadge` | status/state/severity → tone lookup (built on Badge) | feature statuses |
+| `Breadcrumb` | trail w/ optional leading icon | data-classification header |
 | `Card` · `SectionCard` | titled header band + body | detail sections |
 | `Field` · `FieldGrid` | label→value pairs in a responsive grid | overview/evidence |
 | `Toggle` | `checked`, `onChange` (`role="switch"`) | scope tab / tabs-radio |
@@ -96,4 +97,5 @@ variant unions, and merges `className` via [`cn`](../src/lib/cn.ts).
 | --- | --- | --- |
 | `/consent` | Consent Management list (100k virtualized table, filters, search, export) | `consent-management-home-1` |
 | `/consent/:id` | Consent record — tabs: Overview · Scope & Purposes · Evidence · Lifecycle · Audit Trails | `consent-management-overview/scope/evidence/lifecycle` |
+| `/governance/data-classification` | Data Classification — 5 summary stat cards, filterable scheme cards (grid/list) | `data-classification-home-1` |
 | other nav | Placeholder (EmptyState) — scopes the prototype to Consent Management | — |

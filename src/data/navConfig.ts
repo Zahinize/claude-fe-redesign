@@ -58,6 +58,7 @@ export const NAV: NavEntry[] = [
     icon: Boxes,
     children: [
       { label: 'Data Catalog', to: '/governance/catalog' },
+      { label: 'Data Classification', to: '/governance/data-classification' },
       { label: 'Business Glossary', to: '/governance/glossary' },
       { label: 'Workflow Management', to: '/governance/workflows' },
       { label: 'Policy Engine', to: '/governance/policy' },

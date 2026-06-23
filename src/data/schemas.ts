@@ -69,3 +69,39 @@ export type ConsentType = z.infer<typeof consentTypeSchema>
 export const CONSENT_STATUSES = consentStatusSchema.options
 export const CHANNELS = channelSchema.options
 export const CONSENT_TYPES = consentTypeSchema.options
+
+/* -------------------- Data Classification -------------------- */
+
+export const classificationLevelSchema = z.enum([
+  'Top Secret',
+  'Secret',
+  'Restricted',
+  'Public',
+  'Unclassified',
+])
+export const schemeKindSchema = z.enum(['Dataset', 'Table'])
+export const classificationMethodSchema = z.enum(['direct', 'linked', 'inherited'])
+
+export const classificationSchemeSchema = z.object({
+  id: z.string(), // DCS-0001
+  index: z.number(), // #1
+  kind: schemeKindSchema,
+  title: z.string(),
+  description: z.string(),
+  classification: classificationLevelSchema,
+  method: classificationMethodSchema,
+  fields: z.number(),
+  mappedColumns: z.number(),
+  columns: z.number(),
+  source: z.string(),
+  domain: z.string(),
+  serviceCatalog: z.string(),
+  updatedAt: z.string(),
+})
+
+export type ClassificationScheme = z.infer<typeof classificationSchemeSchema>
+export type ClassificationLevel = z.infer<typeof classificationLevelSchema>
+export type SchemeKind = z.infer<typeof schemeKindSchema>
+export type ClassificationMethod = z.infer<typeof classificationMethodSchema>
+
+export const CLASSIFICATION_LEVELS = classificationLevelSchema.options
