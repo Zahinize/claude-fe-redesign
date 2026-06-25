@@ -27,6 +27,7 @@ import { useClassificationSchemes } from './useClassification'
 import { LEVEL_META, TOP_LEVEL_META } from './classificationMeta'
 import { ClassificationStatCard } from './ClassificationStatCard'
 import { SchemeCard, SchemeListRow } from './SchemeCard'
+import { ClassifyDataModal } from './ClassifyDataModal'
 
 type ViewMode = 'grid' | 'list'
 const ALL = 'All'
@@ -82,6 +83,7 @@ export function DataClassificationPage() {
   const [domain, setDomain] = useState<string>(ALL)
   const [catalog, setCatalog] = useState<string>(ALL)
   const [level, setLevel] = useState<string>(ALL)
+  const [classifyOpen, setClassifyOpen] = useState(false)
 
   const all = schemes ?? []
   const summary = useMemo(() => summarize(all), [all])
@@ -111,14 +113,6 @@ export function DataClassificationPage() {
 
   function openScheme(s: ClassificationScheme) {
     toast({ tone: 'success', title: 'Opening scheme', description: `${s.id} · ${s.title.slice(0, 32)}…` })
-  }
-
-  function classifyData() {
-    toast({
-      tone: 'success',
-      title: 'Classification queued',
-      description: `${formatNumber(filtered.length)} schemes scheduled`,
-    })
   }
 
   return (
@@ -161,7 +155,7 @@ export function DataClassificationPage() {
           <LabeledFilter label="Service Catalog" value={catalog} options={catalogs} onChange={setCatalog} />
           <LabeledFilter label="Classification" value={level} options={levels} onChange={setLevel} />
           <div className="self-end">
-            <Button variant="primary" leftIcon={ShieldCheck} onClick={classifyData}>
+            <Button variant="primary" leftIcon={ShieldCheck} onClick={() => setClassifyOpen(true)}>
               Classify Data
             </Button>
           </div>
@@ -192,6 +186,8 @@ export function DataClassificationPage() {
           ))}
         </div>
       )}
+
+      <ClassifyDataModal open={classifyOpen} onClose={() => setClassifyOpen(false)} />
     </div>
   )
 }

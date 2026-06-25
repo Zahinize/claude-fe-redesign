@@ -105,3 +105,27 @@ export type SchemeKind = z.infer<typeof schemeKindSchema>
 export type ClassificationMethod = z.infer<typeof classificationMethodSchema>
 
 export const CLASSIFICATION_LEVELS = classificationLevelSchema.options
+
+/* -------------------- Classify-data flow (catalogs / assets) -------------------- */
+
+export const dataAssetSchema = z.object({
+  id: z.string(),
+  name: z.string(), // e.g. "E2E Bank_Customer Term cde9b217b04b"
+  qualifiedName: z.string(), // e.g. "public.qb_edge_term"
+  kind: schemeKindSchema, // Dataset | Table
+  fields: z.number(),
+  linkedColumns: z.number(),
+  host: z.string(), // "internetpg: [internet_rw_db]"
+  connector: z.string(), // "E2E Harness InternetPG Source"
+})
+
+export const serviceCatalogSchema = z.object({
+  id: z.string(),
+  name: z.string(), // e.g. "E2E PostgreSQL Source"
+  datasetCount: z.number(),
+  tableCount: z.number(),
+  items: z.array(dataAssetSchema),
+})
+
+export type DataAsset = z.infer<typeof dataAssetSchema>
+export type ServiceCatalog = z.infer<typeof serviceCatalogSchema>

@@ -1,19 +1,23 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { ReactNode } from 'react'
-import { X, CheckCircle2, AlertTriangle, AlertCircle } from 'lucide-react'
+import { X, CheckCircle2, AlertTriangle, AlertCircle, ShieldCheck } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
-type ModalTone = 'default' | 'positive' | 'warning' | 'negative'
+type ModalTone = 'default' | 'positive' | 'warning' | 'negative' | 'info'
 
 interface ModalProps {
   open: boolean
   onClose: () => void
   title: string
+  /** Optional subtitle under the title. */
+  description?: string
   tone?: ModalTone
   children?: ReactNode
   /** Footer actions (rendered right-aligned). */
   footer?: ReactNode
+  /** Allow children (e.g. dropdown panels) to overflow the dialog without clipping. */
+  overflowVisible?: boolean
   className?: string
 }
 
@@ -21,10 +25,11 @@ const toneIcon = {
   positive: { Icon: CheckCircle2, cls: 'text-success-600 bg-success-50' },
   warning: { Icon: AlertTriangle, cls: 'text-warning-600 bg-warning-50' },
   negative: { Icon: AlertCircle, cls: 'text-danger-600 bg-danger-50' },
+  info: { Icon: ShieldCheck, cls: 'text-brand-600 bg-brand-50' },
 }
 
 /** Hand-built dialog (assets/components/component-dialogue-box.png). No Radix. */
-export function Modal({ open, onClose, title, tone = 'default', children, footer, className }: ModalProps) {
+export function Modal({ open, onClose, title, description, tone = 'default', children, footer, overflowVisible = false, className }: ModalProps) {
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
@@ -47,18 +52,22 @@ export function Modal({ open, onClose, title, tone = 'default', children, footer
         aria-modal="true"
         aria-label={title}
         className={cn(
-          'relative z-10 w-full max-w-lg animate-scale-in overflow-hidden rounded-card border border-border bg-surface shadow-modal',
+          'relative z-10 w-full max-w-lg animate-scale-in rounded-card border border-border bg-surface shadow-modal',
+          overflowVisible ? 'overflow-visible' : 'overflow-hidden',
           className,
         )}
       >
-        <div className="flex items-center justify-between gap-3 border-b border-border px-card py-4">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between gap-3 border-b border-border px-card py-4">
+          <div className="flex items-start gap-3">
             {icon && (
-              <span className={cn('flex h-9 w-9 items-center justify-center rounded-full', icon.cls)}>
+              <span className={cn('mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full', icon.cls)}>
                 <icon.Icon size={20} />
               </span>
             )}
-            <h2 className="text-lg font-semibold text-fg-strong">{title}</h2>
+            <div>
+              <h2 className="text-lg font-semibold text-fg-strong">{title}</h2>
+              {description && <p className="mt-0.5 text-base text-fg-muted">{description}</p>}
+            </div>
           </div>
           <button
             type="button"
