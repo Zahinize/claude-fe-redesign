@@ -61,6 +61,10 @@ variant unions, and merges `className` via [`cn`](../src/lib/cn.ts).
 | `Input` · `SearchInput` | label/hint/error/icon; debounced clearable search w/ shortcut | `component-input` / top-navbar |
 | `Checkbox` · `Radio` | blue, `role` semantics | checkbox-radio |
 | `Popover` · `MenuItem` · `FilterDropdown` · `Select` | click-outside + Escape; multi-select filter; compact select | `component-dropdown` / pagination |
+| `SearchableSelect` | labelled single-select w/ search panel, disabled + error states | classify / RoPA forms |
+| `TagSelect` | creatable searchable multi-select; preset/sensitive/custom chips | RoPA data subjects & categories |
+| `Textarea` | label/hint/error multiline (mirrors `Input`) | RoPA wizard |
+| `WizardSteps` | horizontal numbered stepper (completed/current/upcoming) | RoPA create wizard |
 | `Pagination` | page numbers + ellipses, results-per-page, "Page N" stepper | `component-pagination` |
 | `Modal` | tone `positive\|warning\|negative`, footer actions (portal) | `component-dialogue-box` |
 | `Toast` (`useToast`) | `success\|error\|warning` (auto-dismiss) | `component-toast` |
@@ -98,4 +102,7 @@ variant unions, and merges `className` via [`cn`](../src/lib/cn.ts).
 | `/consent` | Consent Management list (100k virtualized table, filters, search, export) | `consent-management-home-1` |
 | `/consent/:id` | Consent record — tabs: Overview · Scope & Purposes · Evidence · Lifecycle · Audit Trails | `consent-management-overview/scope/evidence/lifecycle` |
 | `/governance/data-classification` | Data Classification — 5 summary stat cards, filterable scheme cards (grid/list) | `data-classification-home-1` |
+| `/privacy/ropa` | RoPA register — activities table + filters | `ropa-screen-1` |
+| `/privacy/ropa/new` · `/privacy/ropa/:id/edit` | RoPA 7-step create/edit wizard (RHF + Zod, per-step validation) | `ropa-create-1..7` |
+| `/privacy/ropa/:id` | RoPA detail — read-only sections + workflow bar + metadata/timeline/versions | `ropa-created` |
 | other nav | Placeholder (EmptyState) — scopes the prototype to Consent Management | — |

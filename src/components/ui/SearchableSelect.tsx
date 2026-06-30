@@ -6,7 +6,7 @@ import { useOnClickOutside } from '@/lib/useOnClickOutside'
 
 interface SearchableSelectProps<T> {
   /** Field label rendered above the control. */
-  label: string
+  label?: string
   value: T | null
   onChange: (option: T) => void
   options: T[]
@@ -22,6 +22,9 @@ interface SearchableSelectProps<T> {
   /** Row rendered for each option in the open panel. */
   renderOption: (option: T, selected: boolean) => ReactNode
   emptyText?: string
+  /** Optional required marker + inline error (form use). */
+  required?: boolean
+  error?: string
 }
 
 /**
@@ -42,6 +45,8 @@ export function SearchableSelect<T>({
   renderTrigger,
   renderOption,
   emptyText = 'No results found',
+  required,
+  error,
 }: SearchableSelectProps<T>) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -61,9 +66,16 @@ export function SearchableSelect<T>({
     })
   }
 
+  const invalid = Boolean(error)
+
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-sm font-semibold text-fg-strong">{label}</span>
+      {label && (
+        <span className="text-sm font-semibold text-fg-strong">
+          {label}
+          {required && <span className="ml-0.5 text-danger-500">*</span>}
+        </span>
+      )}
       <div ref={containerRef} className="relative">
         <button
           type="button"
@@ -76,8 +88,10 @@ export function SearchableSelect<T>({
             disabled
               ? 'cursor-not-allowed border-border bg-surface-sunken text-fg-subtle'
               : open
-                ? 'border-brand-500 bg-surface ring-4 ring-brand-50'
-                : 'border-border bg-surface hover:border-border-strong',
+                ? cn('bg-surface ring-4', invalid ? 'border-danger-500 ring-danger-50' : 'border-brand-500 ring-brand-50')
+                : invalid
+                  ? 'border-danger-500 bg-surface'
+                  : 'border-border bg-surface hover:border-border-strong',
           )}
         >
           {value ? (
@@ -136,6 +150,7 @@ export function SearchableSelect<T>({
           </div>
         )}
       </div>
+      {error && <p className="text-xs text-danger-600">{error}</p>}
     </div>
   )
 }

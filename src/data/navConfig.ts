@@ -83,6 +83,7 @@ export const NAV: NavEntry[] = [
     icon: ShieldCheck,
     children: [
       { label: 'Consent Management', to: '/consent' },
+      { label: 'RoPA', to: '/privacy/ropa' },
       { label: 'Subject Requests', to: '/privacy/requests' },
       { label: 'Data Mapping', to: '/privacy/mapping' },
     ],

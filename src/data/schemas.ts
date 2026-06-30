@@ -129,3 +129,81 @@ export const serviceCatalogSchema = z.object({
 
 export type DataAsset = z.infer<typeof dataAssetSchema>
 export type ServiceCatalog = z.infer<typeof serviceCatalogSchema>
+
+/* -------------------- RoPA (Records of Processing Activities) -------------------- */
+
+export const ropaStatusSchema = z.enum([
+  'Draft',
+  'In review',
+  'Approved',
+  'Published',
+  'Superseded',
+  'Archived',
+  'Retired',
+])
+export const ropaRiskSchema = z.enum(['Low', 'Medium', 'High'])
+export const legalBasisSchema = z.enum([
+  'Consent',
+  'Contract',
+  'Legal obligation',
+  'Vital interests',
+  'Public task',
+  'Legitimate interests',
+])
+export const recipientScopeSchema = z.enum(['In-Kingdom', 'Cross-border'])
+
+export const recipientSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  scope: recipientScopeSchema,
+  type: z.string(), // "unspecified" | processor | controller | ...
+  country: z.string(), // ISO, optional
+  vendorId: z.string(),
+})
+
+export const transferSchema = z.object({
+  id: z.string(),
+  country: z.string(),
+  mechanism: z.string(), // SCC | BCR | Derogation | Adequacy
+  traCase: z.string(),
+})
+
+export const ropaActivitySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  purpose: z.string(),
+  description: z.string(),
+  legalBasis: legalBasisSchema.nullable(),
+  dataSubjects: z.array(z.string()), // codes; custom values derived when not a preset
+  involvesMinors: z.boolean(),
+  highRiskAttestation: z.boolean(),
+  dataCategories: z.array(z.string()),
+  sensitive: z.boolean(), // derived from sensitive categories
+  recipients: z.array(recipientSchema),
+  transfers: z.array(transferSchema),
+  controllerConfirmed: z.boolean(),
+  privacyNoticeId: z.string(),
+  dpiaCaseId: z.string(),
+  securityMeasures: z.array(z.string()),
+  status: ropaStatusSchema,
+  risk: ropaRiskSchema,
+  nextReview: z.string().nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  timeline: z.array(
+    z.object({ id: z.string(), event: z.string(), state: z.string(), at: z.string() }),
+  ),
+})
+
+export type RopaActivity = z.infer<typeof ropaActivitySchema>
+export type RopaStatus = z.infer<typeof ropaStatusSchema>
+export type RopaRisk = z.infer<typeof ropaRiskSchema>
+export type LegalBasis = z.infer<typeof legalBasisSchema>
+export type Recipient = z.infer<typeof recipientSchema>
+export type Transfer = z.infer<typeof transferSchema>
+export type RopaTimelineEvent = RopaActivity['timeline'][number]
+
+export const ROPA_STATUSES = ropaStatusSchema.options
+export const ROPA_RISKS = ropaRiskSchema.options
+export const LEGAL_BASES = legalBasisSchema.options
+export const RECIPIENT_SCOPES = recipientScopeSchema.options
